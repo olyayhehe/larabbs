@@ -44,7 +44,18 @@ $api->version('v1', [
         // 删除token
         $api->delete('authorizations/current', 'AuthorizationsController@destroy')
             ->name('api.authorizations.destroy');
-                // 需要 token 验证的接口
+
+        // 编辑登录用户信息
+        $api->patch('user', 'UsersController@update')
+            ->name('api.user.update');
+        // 图片资源
+        $api->post('images', 'ImagesController@store')
+            ->name('api.images.store');
+        // 游客可以访问的接口
+        $api->get('categories', 'CategoriesController@index')
+            ->name('api.categories.index');
+
+        // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {
             // 当前登录用户信息
             $api->get('user', 'UsersController@me')
@@ -57,13 +68,6 @@ $api->version('v1', [
 });
 
 
-
-// 编辑登录用户信息
-$api->patch('user', 'UsersController@update')
-    ->name('api.user.update');
-// 图片资源
-$api->post('images', 'ImagesController@store')
-    ->name('api.images.store');
 
 
 
